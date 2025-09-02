@@ -1,0 +1,418 @@
+/* css/chat.css (Perbaikan Akhir) */
+
+/* --- Bagian Sidebar Sesi --- */
+.session-sidebar-content {
+    padding: 1rem;
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    border-top: 1px solid var(--border-color);
+}
+.sidebar.collapsed .session-sidebar-content {
+    display: none;
+}
+.new-chat-btn {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    width: 100%;
+    padding: 10px 15px;
+    background: #f0f4f9;
+    color: #333;
+    border: 1px solid #dfe1e5;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 0.95rem;
+    text-align: left;
+    margin-bottom: 1rem;
+}
+.new-chat-btn:hover {
+    background: #e2e6ea;
+}
+.session-divider {
+    border: none;
+    height: 1px;
+    background-color: #e0e0e0;
+    margin: 0 0 1rem 0;
+}
+.session-title {
+    margin: 0 0 0.5rem 0;
+    font-size: 0.9rem;
+    color: #666;
+    font-weight: 500;
+}
+.session-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    overflow-y: auto;
+    flex-grow: 1;
+}
+.session-list li {
+    border-radius: 8px;
+    margin-bottom: 5px;
+    white-space: nowrap;
+    overflow: hidden;
+    font-size: 0.9rem;
+    position: relative;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+.session-list li .session-title-text {
+    padding: 10px 15px;
+    cursor: pointer;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    flex-grow: 1;
+}
+.session-list li:hover {
+    background: #e9ecef;
+}
+.session-list li.active {
+    background: var(--primary-light);
+    font-weight: bold;
+}
+.delete-session-btn {
+    background: none;
+    border: none;
+    color: #aaa;
+    cursor: pointer;
+    font-size: 0.8rem;
+    padding: 10px;
+    display: none;
+    flex-shrink: 0;
+}
+.session-list li:hover .delete-session-btn {
+    display: inline-block;
+}
+.delete-session-btn:hover {
+    color: #f44336;
+}
+
+/* --- Tombol Logout --- */
+.sidebar ul.nav-links li.logout-link {
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+    box-sizing: border-box;
+    padding: 0 10px 20px 10px;
+}
+
+.sidebar.collapsed ul.nav-links li.logout-link {
+    padding: 0;
+}
+
+
+/* --- Struktur Layout Utama Halaman Chat --- */
+body {
+    overflow: hidden;
+}
+.main-content {
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+}
+.main-content > header {
+    flex-shrink: 0;
+}
+.header-actions {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+}
+.main-content > main {
+    flex-grow: 1;
+    overflow: hidden;
+    padding: 2rem 2rem 1rem 2rem;
+}
+
+/* --- Bagian Konten Chat --- */
+.chat-container {
+    display: flex;
+    flex-direction: column;
+    height: 100%; 
+    background: #fff;
+    border-radius: 12px;
+    box-shadow: 0 4px 8px var(--shadow-color);
+    position: relative;
+}
+.chat-messages {
+    flex-grow: 1; 
+    padding: 20px;
+    overflow-y: auto;
+    display: flex;
+    flex-direction: column;
+    padding-bottom: 150px;
+    -webkit-mask-image: linear-gradient(to bottom, transparent 0%, black 5%, black 95%, transparent 100%);
+    mask-image: linear-gradient(to bottom, transparent 0%, black 5%, black 95%, transparent 100%);
+}
+
+/* --- Pesan Sambutan --- */
+.welcome-placeholder {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    height: 100%;
+    color: #aaa;
+}
+.welcome-placeholder i {
+    font-size: 4rem;
+    margin-bottom: 1rem;
+}
+
+/* --- Wrapper & Bubble Pesan --- */
+.message-wrapper {
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 1rem;
+    position: relative;
+}
+.message-wrapper.user {
+    align-self: flex-end;
+    align-items: flex-end;
+}
+.message-wrapper.model {
+    align-self: flex-start;
+    align-items: flex-start;
+}
+.message-main-user {
+    display: flex;
+    flex-direction: row-reverse;
+    align-items: center;
+    gap: 8px;
+}
+
+.message {
+    padding: 10px 15px;
+    border-radius: 18px;
+    line-height: 1.6;
+    max-width: 100%;
+    position: relative;
+}
+.message.user {
+    background-color: var(--primary-color);
+    color: white;
+    max-width: 70%;
+}
+.message.model {
+    background-color: #f1f0f0;
+    color: #333;
+    max-width: 80%;
+}
+.message-time {
+    font-size: 0.75rem;
+    color: #999;
+    margin-top: 4px;
+    padding: 0 10px;
+}
+.message.model.typing {
+    display: flex;
+    align-items: center;
+}
+.message.model.typing span {
+    height: 8px;
+    width: 8px;
+    background-color: #aaa;
+    border-radius: 50%;
+    display: inline-block;
+    margin: 0 2px;
+    animation: bounce 1.4s infinite ease-in-out both;
+}
+.message.model.typing span:nth-child(1) { animation-delay: -0.32s; }
+.message.model.typing span:nth-child(2) { animation-delay: -0.16s; }
+@keyframes bounce {
+  0%, 80%, 100% { transform: scale(0); }
+  40% { transform: scale(1.0); }
+}
+
+/* --- Aksi pada Pesan (Hover) --- */
+.message-actions {
+    display: flex;
+    align-items: center;
+    opacity: 0;
+    transition: opacity 0.2s ease;
+}
+.message-main-user:hover .message-actions,
+.message.model:hover .message-actions {
+    opacity: 1;
+}
+
+.message-action-btn {
+    background: none;
+    border: none;
+    cursor: pointer;
+    color: #999;
+    font-size: 0.8rem;
+    padding: 4px;
+}
+.message-action-btn:hover {
+    color: #333;
+}
+.message.model { 
+    padding-top: 25px; 
+}
+.message.model .message-actions {
+    position: absolute;
+    top: 8px;
+    right: 8px;
+}
+
+/* --- Styling Konten Markdown --- */
+.message ul, .message ol {
+    padding-left: 20px;
+}
+.message > div > * { /* PERBAIKAN: Menargetkan semua elemen anak */
+    display: block;
+    width: 100%;
+}
+.message table {
+    display: block;
+    max-width: 100%;
+    overflow-x: auto;
+    border-collapse: collapse;
+    margin: 1rem 0;
+    font-size: 0.9rem;
+}
+.message th, .message td {
+    border: 1px solid #ddd;
+    padding: 8px;
+    text-align: left;
+    word-wrap: break-word;
+}
+.message thead {
+    background-color: #f2f2f2;
+}
+.message tr:nth-child(even) {
+    background-color: #f9f9f9;
+}
+
+/* --- Area Input --- */
+.chat-input-area {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    padding: 1.5rem;
+    background: transparent;
+}
+.input-wrapper {
+    width: 100%;
+    max-width: 900px;
+    margin: 0 auto;
+    position: relative;
+    background-color: #f0f4f9;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+    border-radius: 16px;
+    border: none;
+}
+.edit-controls {
+    display: none;
+    justify-content: space-between;
+    align-items: center;
+    padding: 5px 10px;
+    background-color: #fffbe6;
+    border-radius: 8px 8px 0 0;
+    font-size: 0.8rem;
+}
+.chat-input-form {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    padding: 12px;
+    background-color: transparent;
+    border: none;
+    box-shadow: none;
+}
+.main-input-row {
+    display: flex;
+    align-items: flex-end;
+    gap: 10px;
+}
+.main-input-row textarea {
+    flex-grow: 1;
+    border: none;
+    background: transparent;
+    resize: none;
+    max-height: 200px;
+    overflow-y: auto;
+    font-size: 1rem;
+    padding: 8px;
+    outline: none;
+    line-height: 1.5;
+    border-radius: 8px;
+    background-color: #fff;
+}
+.input-actions {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    padding: 0 5px;
+}
+.input-actions .context-selector-wrapper {
+    flex-grow: 1;
+}
+.input-actions .icon-btn {
+    border: none;
+    background: none;
+    cursor: pointer;
+    color: #5f6368;
+    font-size: 1.2rem;
+}
+.input-actions .btn {
+    border: none;
+    background: #0b57d0;
+    color: white;
+    cursor: pointer;
+    font-size: 1.2rem;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    margin-left: auto;
+}
+.input-actions .btn:disabled {
+    background-color: #d3e3fd;
+    cursor: not-allowed;
+}
+
+/* === Dropdown Menu for User Profile === */
+.dropdown-menu {
+    position: absolute;
+    top: 110%; 
+    right: 0;
+    background-color: var(--white-color);
+    border-radius: 8px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+    width: 200px;
+    z-index: 1000;
+    overflow: hidden;
+    display: none; 
+    transition: opacity 0.2s ease, transform 0.2s ease;
+    opacity: 0;
+    transform: translateY(-10px);
+}
+.dropdown-menu.show {
+    display: block;
+    opacity: 1;
+    transform: translateY(0);
+}
+.dropdown-item {
+    display: block;
+    padding: 12px 20px;
+    color: var(--text-grey);
+    text-decoration: none;
+    font-size: 14px;
+    transition: background-color 0.2s ease;
+}
+.dropdown-item:hover {
+    background-color: #f5f5f5;
+    color: var(--primary-color);
+}
+

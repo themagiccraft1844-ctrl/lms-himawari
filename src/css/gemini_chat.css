@@ -1,0 +1,140 @@
+/* css/gemini_chat.css */
+/* Main container to center the chat interface */
+.gemini-chat-wrapper {
+    max-width: 900px;
+    margin: 0 auto;
+    height: calc(100vh - 120px); /* Full height minus header/padding */
+    display: flex;
+    flex-direction: column;
+}
+
+.chat-container {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    width: 100%;
+    background: #fff;
+    overflow: hidden;
+    padding-bottom: 1rem; /* Space for input area */
+}
+
+.chat-messages {
+    flex-grow: 1;
+    padding: 20px;
+    overflow-y: auto;
+    display: flex;
+    flex-direction: column;
+    gap: 25px; /* Space between messages */
+}
+
+/* General message styling */
+.message {
+    display: flex;
+    align-items: flex-start;
+    gap: 15px;
+    max-width: 90%;
+}
+
+.message-icon {
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    color: white;
+}
+
+.message-content {
+    padding-top: 5px;
+    line-height: 1.6;
+}
+
+/* User message styling */
+.message.user {
+    align-self: flex-end;
+    flex-direction: row-reverse;
+}
+.message.user .message-icon {
+    background-color: #4a80ff; /* Blue accent */
+}
+
+/* Model (AI) message styling */
+.message.model {
+    align-self: flex-start;
+}
+.message.model .message-icon {
+    background-color: #8e44ad; /* Purple accent */
+}
+
+/* Typing indicator */
+.message.model.typing .message-content {
+    display: flex;
+    align-items: center;
+    padding-top: 12px;
+}
+.typing-dot {
+    height: 8px;
+    width: 8px;
+    background-color: #aaa;
+    border-radius: 50%;
+    display: inline-block;
+    margin: 0 2px;
+    animation: bounce 1.4s infinite ease-in-out both;
+}
+.typing-dot:nth-child(1) { animation-delay: -0.32s; }
+.typing-dot:nth-child(2) { animation-delay: -0.16s; }
+@keyframes bounce {
+  0%, 80%, 100% { transform: scale(0); }
+  40% { transform: scale(1.0); }
+}
+
+/* Input area styling */
+.chat-input-area {
+    padding: 0 20px;
+}
+
+.chat-input-form {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 8px;
+    border-radius: 28px; /* Rounded pill shape */
+    background-color: #f0f4f9; /* Light grey background */
+    border: 1px solid #dfe1e5;
+}
+
+.chat-input-form textarea {
+    flex-grow: 1;
+    border: none;
+    background: transparent;
+    resize: none;
+    max-height: 120px;
+    font-size: 1rem;
+    padding: 8px 0;
+    outline: none;
+}
+
+.chat-input-form .icon-btn, .chat-input-form .btn {
+    border: none;
+    background: none;
+    cursor: pointer;
+    color: #5f6368;
+    font-size: 1.2rem;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.chat-input-form .btn {
+    background-color: #0b57d0;
+    color: white;
+}
+.chat-input-form .btn:disabled {
+    background-color: #d3e3fd;
+    cursor: not-allowed;
+}

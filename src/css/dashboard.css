@@ -1,0 +1,684 @@
+/* File: css/dashboard.css (Dibersihkan) */
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&display=swap');
+
+:root {
+    --primary-color: #4a90e2;
+    --primary-light: #e9f2fe;
+    --secondary-color: #f5f7fa;
+    --text-color: #333;
+    --text-grey: #777;
+    --white-color: #ffffff;
+    --border-color: #e0e0e0;
+    --shadow-color: rgba(0, 0, 0, 0.08);
+    --sidebar-width: 260px;
+    --sidebar-collapsed-width: 80px;
+}
+
+* {
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
+    font-family: 'Inter', sans-serif;
+}
+
+body {
+    background-color: var(--secondary-color);
+    display: flex;
+}
+
+/* Sidebar */
+.sidebar {
+    width: var(--sidebar-width);
+    height: 100vh;
+    background: var(--white-color);
+    position: fixed;
+    left: 0;
+    top: 0;
+    z-index: 100;
+    transition: width 0.3s ease;
+    border-right: 1px solid var(--border-color);
+    display: flex;
+    flex-direction: column;
+}
+
+.sidebar .logo {
+    padding: 20px;
+    text-align: center;
+    border-bottom: 1px solid var(--border-color);
+    flex-shrink: 0;
+}
+
+.sidebar .logo h2 {
+    color: var(--primary-color);
+    font-size: 24px;
+    white-space: nowrap;
+}
+
+.sidebar .nav-links {
+    list-style: none;
+    padding: 20px 0;
+    margin: 0;
+}
+
+.sidebar .nav-links li {
+    padding: 0 10px;
+    margin-bottom: 5px;
+}
+
+.sidebar .nav-links a {
+    display: flex;
+    align-items: center;
+    padding: 15px;
+    color: var(--text-grey);
+    text-decoration: none;
+    border-radius: 8px;
+    transition: background 0.3s, color 0.3s;
+    white-space: nowrap;
+}
+
+.sidebar .nav-links a i {
+    font-size: 20px;
+    margin-right: 20px;
+    width: 20px;
+    text-align: center;
+}
+
+.sidebar .nav-links a:hover,
+.sidebar .nav-links li.active a {
+    background: var(--primary-light);
+    color: var(--primary-color);
+}
+
+.sidebar ul.nav-links li.logout-link {
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+    box-sizing: border-box;
+    padding: 0 10px 20px 10px;
+}
+
+.sidebar.collapsed ul.nav-links li.logout-link {
+    padding: 0;
+}
+
+/* Main Content */
+.main-content {
+    margin-left: var(--sidebar-width);
+    width: calc(100% - var(--sidebar-width));
+    transition: margin-left 0.3s ease, width 0.3s ease;
+}
+
+header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 20px;
+    background: var(--white-color);
+    border-bottom: 1px solid var(--border-color);
+    position: sticky;
+    top: 0;
+    z-index: 50;
+}
+
+.header-title {
+    display: flex;
+    align-items: center;
+}
+
+.header-title h2 {
+    color: var(--text-color);
+    margin: 0;
+}
+
+#menu-toggle {
+    font-size: 24px;
+    cursor: pointer;
+    color: var(--text-grey);
+    margin-right: 15px;
+}
+.header-actions {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    position: relative; /* Diperlukan untuk dropdown */
+}
+
+.user-wrapper {
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+}
+
+.user-wrapper i {
+    font-size: 36px;
+    color: var(--primary-color);
+    margin-right: 15px;
+}
+
+.user-wrapper h4 {
+    margin: 0;
+    font-weight: 500;
+}
+
+.user-wrapper small {
+    color: var(--text-grey);
+}
+
+main {
+    padding: 30px;
+}
+
+/* Collapsed Sidebar State */
+.sidebar.collapsed {
+    width: var(--sidebar-collapsed-width);
+}
+
+.sidebar.collapsed .logo h2,
+.sidebar.collapsed .nav-links a span {
+    display: none;
+}
+
+.sidebar.collapsed .nav-links a {
+    justify-content: center;
+}
+
+.sidebar.collapsed .nav-links a i {
+    margin-right: 0;
+}
+
+.main-content.expanded {
+    width: calc(100% - var(--sidebar-collapsed-width));
+    margin-left: var(--sidebar-collapsed-width);
+}
+
+/* Dashboard Cards */
+.cards-container {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 20px;
+    margin-top: 20px;
+}
+
+.card {
+    background: var(--white-color);
+    padding: 20px;
+    border-radius: 12px;
+    box-shadow: 0 4px 8px var(--shadow-color);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.card h2 {
+    font-size: 32px;
+    margin-bottom: 5px;
+}
+
+.card span {
+    color: var(--text-grey);
+}
+
+.card i {
+    font-size: 48px;
+    color: var(--primary-color);
+    opacity: 0.7;
+}
+
+.welcome-card {
+    background: linear-gradient(135deg, var(--primary-color), #357abd);
+    color: var(--white-color);
+    padding: 30px;
+    border-radius: 12px;
+}
+
+/* Admin Specific Styles */
+.admin-controls {
+    margin-bottom: 20px;
+}
+
+.content-table {
+    background: var(--white-color);
+    border-radius: 12px;
+    box-shadow: 0 4px 8px var(--shadow-color);
+    overflow-x: auto;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+thead tr {
+    background-color: #f9fafb;
+    border-bottom: 2px solid var(--border-color);
+}
+
+th, td {
+    padding: 15px;
+    text-align: left;
+    border-bottom: 1px solid var(--border-color);
+}
+
+td { color: var(--text-grey); }
+tbody tr:last-child td { border-bottom: none; }
+.text-center { text-align: center; }
+
+.btn-action {
+    padding: 5px 10px;
+    border-radius: 5px;
+    text-decoration: none;
+    color: var(--white-color);
+    font-size: 14px;
+    margin-right: 5px;
+}
+.manage { background-color: #2196F3; }
+.delete { background-color: #f44336; }
+
+.form-container, .add-content-container {
+    background: var(--white-color);
+    padding: 30px;
+    border-radius: 12px;
+    box-shadow: 0 4px 8px var(--shadow-color);
+}
+
+.back-link {
+    color: inherit;
+    text-decoration: none;
+    margin-right: 15px;
+}
+
+.management-grid {
+    display: grid;
+    grid-template-columns: 2fr 1fr;
+    gap: 30px;
+}
+
+.content-list-container, .quiz-builder-container {
+    background: var(--white-color);
+    padding: 20px;
+    border-radius: 12px;
+    box-shadow: 0 4px 8px var(--shadow-color);
+}
+
+.content-list ul {
+    list-style: none;
+    padding: 0;
+}
+
+.content-list li {
+    display: flex;
+    align-items: center;
+    padding: 15px;
+    border-bottom: 1px solid var(--border-color);
+    transition: background-color 0.2s;
+}
+.content-list li:hover { background-color: #f9fafb; }
+.content-list li i {
+    margin-right: 15px;
+    color: var(--primary-color);
+}
+.content-list li span { flex-grow: 1; }
+.content-actions {
+    display: flex;
+    gap: 10px;
+}
+
+.btn-action-sm {
+    padding: 4px 8px;
+    font-size: 12px;
+    text-decoration: none;
+    color: white;
+    border-radius: 4px;
+}
+.edit { background-color: #2196F3; }
+
+/* Quiz Builder */
+.question-list ol {
+    padding-left: 20px;
+}
+.question-list li {
+    margin-bottom: 10px;
+    color: var(--text-grey);
+}
+
+.option-input-group {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 10px;
+}
+.option-input-group input[type="radio"] { flex-shrink: 0; }
+.btn-sm {
+    padding: 5px 10px;
+    font-size: 12px;
+    background-color: #6c757d;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+.role-form select {
+    padding: 5px;
+    border-radius: 5px;
+    border: 1px solid var(--border-color);
+}
+
+/* === ATURAN CSS UNTUK SEMUA FORM DI DASHBOARD === */
+.form-group {
+    margin-bottom: 20px;
+}
+
+.form-group label {
+    display: block;
+    margin-bottom: 8px;
+    font-weight: 500;
+    color: var(--text-color);
+}
+
+.form-control {
+    width: 100%;
+    padding: 12px;
+    border: 1px solid var(--border-color);
+    border-radius: 8px;
+    box-sizing: border-box;
+    transition: border-color 0.3s;
+    font-size: 16px;
+    background-color: #fdfdfd;
+}
+
+.form-control:focus {
+    outline: none;
+    border-color: var(--primary-color);
+    box-shadow: 0 0 0 3px rgba(74, 144, 226, 0.2);
+}
+
+.btn {
+    display: inline-block;
+    background-color: var(--primary-color);
+    color: var(--white-color);
+    border: none;
+    border-radius: 8px;
+    padding: 12px 24px;
+    font-size: 16px;
+    font-weight: 500;
+    cursor: pointer;
+    text-align: center;
+    text-decoration: none;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+.btn:hover {
+    background-color: #357abd;
+    transform: translateY(-2px);
+}
+
+/* === ATURAN CSS UNTUK PREVIEW === */
+.content-link {
+    flex-grow: 1;
+    display: flex;
+    align-items: center;
+    text-decoration: none;
+    color: inherit;
+}
+
+.preview-container {
+    background: var(--white-color);
+    padding: 30px;
+    border-radius: 12px;
+    box-shadow: 0 4px 8px var(--shadow-color);
+}
+
+.preview-materi {
+    line-height: 1.8;
+}
+
+.preview-materi h1, .preview-materi h2, .preview-materi h3 {
+    margin-top: 20px;
+    margin-bottom: 15px;
+    color: var(--text-color);
+}
+
+.preview-materi p {
+    margin-bottom: 15px;
+}
+
+.preview-quiz .quiz-question {
+    margin-bottom: 25px;
+    padding-bottom: 20px;
+    border-bottom: 1px solid var(--border-color);
+}
+.preview-quiz .quiz-question:last-child {
+    border-bottom: none;
+}
+
+.preview-quiz h4 {
+    margin-bottom: 15px;
+    font-weight: 600;
+}
+
+.preview-quiz .quiz-options {
+    list-style: none;
+    padding-left: 0;
+}
+
+.preview-quiz .quiz-options li {
+    padding: 10px;
+    border-radius: 5px;
+    margin-bottom: 8px;
+}
+
+.preview-quiz .quiz-options .correct-option {
+    background-color: #d4edda; /* Hijau untuk jawaban benar */
+    border-left: 4px solid #28a745;
+    font-weight: bold;
+}
+
+.preview-quiz .quiz-options .correct-option i {
+    color: #28a745;
+}
+
+/* === ATURAN CSS BARU UNTUK DASHBOARD USER === */
+
+.main-title {
+    margin-top: 2rem;
+    margin-bottom: 1rem;
+    font-weight: 600;
+    color: var(--text-color);
+}
+
+/* Course Grid */
+.course-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 25px;
+}
+
+.course-card {
+    background: var(--white-color);
+    border-radius: 12px;
+    box-shadow: 0 4px 12px var(--shadow-color);
+    text-decoration: none;
+    color: inherit;
+    display: flex;
+    flex-direction: column;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    overflow: hidden;
+}
+
+.course-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 16px rgba(0,0,0,0.12);
+}
+
+.course-card .card-banner {
+    height: 160px;
+    width: 100%;
+    background-color: #e0e0e0;
+    background-size: cover;
+    background-position: center;
+}
+
+.course-card .card-banner img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.course-card .card-content {
+    padding: 20px;
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
+}
+
+.course-card .card-content h4 {
+    margin: 0 0 10px 0;
+    font-size: 18px;
+    color: var(--text-color);
+}
+
+.course-card .card-content p {
+    font-size: 14px;
+    color: var(--text-grey);
+    line-height: 1.6;
+    flex-grow: 1;
+}
+
+.course-card .card-footer {
+    padding-top: 15px;
+    margin-top: auto;
+    font-weight: 500;
+    color: var(--primary-color);
+}
+
+/* Accordion for View Course Page */
+.course-description {
+    margin-bottom: 2rem;
+    padding-bottom: 1.5rem;
+    border-bottom: 1px solid var(--border-color);
+    color: var(--text-grey);
+}
+
+.accordion-item {
+    background-color: var(--white-color);
+    margin-bottom: 10px;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px var(--shadow-color);
+    overflow: hidden;
+}
+
+.accordion-header {
+    width: 100%;
+    background-color: var(--white-color);
+    border: none;
+    padding: 20px;
+    font-size: 16px;
+    font-weight: 600;
+    text-align: left;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    color: var(--text-color);
+}
+
+.accordion-header i {
+    margin-right: 15px;
+    color: var(--primary-color);
+}
+
+.accordion-header .icon-toggle {
+    transition: transform 0.3s ease;
+}
+
+.accordion-header.active .icon-toggle {
+    transform: rotate(180deg);
+}
+
+.accordion-content {
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.3s ease-out, padding 0.3s ease-out;
+    padding: 0 20px;
+}
+
+.accordion-content .materi-body {
+    padding: 20px 0;
+    line-height: 1.8;
+}
+
+.accordion-content .quiz-link-body {
+    padding: 20px 0;
+    text-align: center;
+}
+
+/* === ATURAN CSS BARU UNTUK EDITOR KUIS === */
+.question-list-admin {
+    margin-bottom: 30px;
+    border-top: 1px solid var(--border-color);
+    padding-top: 20px;
+}
+.question-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 15px;
+    border-bottom: 1px solid var(--border-color);
+}
+.question-item p {
+    margin: 0;
+    flex-grow: 1;
+}
+.question-actions {
+    display: flex;
+    gap: 10px;
+    flex-shrink: 0;
+    margin-left: 20px;
+}
+
+.tf-group {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 10px;
+}
+.tf-group label {
+    font-weight: normal;
+    margin: 0;
+}
+
+/* === Dropdown Menu for User Profile === */
+.dropdown-menu {
+    position: absolute;
+    top: 110%; 
+    right: 0;
+    background-color: var(--white-color);
+    border-radius: 8px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+    width: 200px;
+    z-index: 1000;
+    overflow: hidden;
+    display: none; 
+    transition: opacity 0.2s ease, transform 0.2s ease;
+    opacity: 0;
+    transform: translateY(-10px);
+}
+.dropdown-menu.show {
+    display: block;
+    opacity: 1;
+    transform: translateY(0);
+}
+.dropdown-item {
+    display: block;
+    padding: 12px 20px;
+    color: var(--text-grey);
+    text-decoration: none;
+    font-size: 14px;
+    transition: background-color 0.2s ease;
+}
+.dropdown-item:hover {
+    background-color: #f5f5f5;
+    color: var(--primary-color);
+}
+

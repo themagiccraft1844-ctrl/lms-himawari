@@ -1,0 +1,77 @@
+/* css/quiz.css */
+
+/* Styling for the start and result page containers */
+.quiz-start-container, .quiz-result-container {
+    background: #fff;
+    padding: 2rem;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    text-align: center;
+}
+
+.quiz-start-container h1, .quiz-result-container h1 {
+    margin-top: 0;
+    color: #333;
+}
+
+.quiz-start-container p, .quiz-result-container p {
+    color: #666;
+    font-size: 1.1rem;
+    line-height: 1.6;
+}
+
+.quiz-start-container .btn, .quiz-result-container .btn {
+    margin-top: 1.5rem;
+    padding: 12px 25px;
+    font-size: 1.1rem;
+}
+
+/* Styling for the main quiz page */
+.quiz-form-container {
+    background: #fff;
+    padding: 2rem;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+.question-block {
+    margin-bottom: 2.5rem;
+    padding-bottom: 1.5rem;
+    border-bottom: 1px solid #eee;
+}
+
+.question-block:last-child {
+    border-bottom: none;
+    margin-bottom: 1rem;
+}
+
+.question-text {
+    font-size: 1.2rem;
+    color: #333;
+    margin-bottom: 1rem;
+}
+
+.options-group label {
+    display: block;
+    background: #f9f9f9;
+    padding: 12px 15px;
+    border-radius: 5px;
+    margin-bottom: 10px;
+    cursor: pointer;
+    transition: background-color 0.2s ease-in-out;
+}
+
+.options-group label:hover {
+    background: #f0f0f0;
+}
+
+.options-group input[type="radio"] {
+    margin-right: 10px;
+}
+
+.quiz-form-container .btn {
+    width: 100%;
+    padding: 15px;
+    font-size: 1.2rem;
+    margin-top: 1rem;
+}

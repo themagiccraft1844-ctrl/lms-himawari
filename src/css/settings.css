@@ -1,0 +1,74 @@
+/* Menambahkan font Inter untuk konsistensi */
+body {
+    font-family: 'Inter', sans-serif;
+}
+
+/* === FIX UNTUK KONFLIK TAILWIND === */
+/* Mengembalikan ukuran font header yang di-reset oleh Tailwind */
+.header-title h2 {
+    font-size: 1.5rem; /* Sekitar 24px */
+    font-weight: 600;
+}
+/* ==================================== */
+
+/* Style kustom untuk pop-up */
+.invalid-feedback { color: #e53e3e; font-size: 0.875rem; margin-top: 0.25rem; }
+.is-invalid { border-color: #e53e3e; }
+.alert { padding: 1rem; margin-bottom: 1rem; border-radius: 0.5rem; font-weight: 500; }
+.alert-warning { background-color: #fefcbf; color: #b45309; border: 1px solid #fde047; }
+.alert-success { background-color: #dcfce7; color: #166534; border: 1px solid #86efac; }
+
+.sidebar-extra-content {
+    padding: 0 10px;
+}
+.settings-nav {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+.settings-nav li a {
+    display: flex;
+    align-items: center;
+    padding: 10px 15px; /* Padding lebih kecil dari menu utama */
+    font-size: 14px;      /* Font lebih kecil */
+    color: var(--text-grey);
+    text-decoration: none;
+    border-radius: 6px;
+    margin-bottom: 5px;
+    transition: background 0.2s, color 0.2s;
+}
+.settings-nav li a i {
+    width: 20px;
+    margin-right: 15px;
+    text-align: center;
+    font-size: 16px; /* Ikon sedikit lebih kecil */
+}
+.settings-nav li.active a,
+.settings-nav li a:hover {
+    background: var(--primary-light);
+    color: var(--primary-color);
+    font-weight: 500;
+}
+
+/* --- PERBAIKAN CSS UNTUK FITUR MINIMIZE SUB-MENU --- */
+
+/* Saat sidebar collapsed, sembunyikan semua teks (span) di dalam sub-menu */
+.sidebar.collapsed .settings-nav span {
+    display: none;
+}
+
+/* Sembunyikan juga judul "Menu Pengaturan" dan garis pemisahnya */
+.sidebar.collapsed .sidebar-extra-content h4,
+.sidebar.collapsed .sidebar-extra-content .session-divider {
+    display: none;
+}
+
+/* Saat sidebar collapsed, pusatkan ikon di sub-menu */
+.sidebar.collapsed .settings-nav a {
+    justify-content: center;
+}
+
+/* Hapus margin kanan dari ikon agar benar-benar di tengah */
+.sidebar.collapsed .settings-nav a i {
+    margin-right: 0;
+}
