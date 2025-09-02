@@ -1,0 +1,16 @@
+name: Deploy to Production Server
+
+on:
+  push:
+    branches:
+      - main # Ganti ke 'master' jika itu nama branch utamamu
+
+jobs:
+  deploy:
+    name: Deploy Job
+    runs-on: self-hosted
+
+    steps:
+    - name: Pull latest code from main branch
+      run: git pull origin main
+      working-directory: /srv/lms-himawari/ # Pastikan path ini benar!
