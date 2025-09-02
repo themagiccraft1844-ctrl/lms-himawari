@@ -94,8 +94,8 @@ $sidebar_extra_content = ob_get_clean(); // Ambil output dan simpan ke variabel
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Profil & Pengaturan - Platform Kursus</title>
     <!-- CSS Dashboard Asli -->
-    <link rel="stylesheet" href="css/dashboard.css">
-    <link rel="stylesheet" href="css/settings.css">
+    <link rel="stylesheet" href="/css/dashboard.css">
+    <link rel="stylesheet" href="/css/settings.css">
     <!-- Font Awesome (sudah ada) -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
     <!-- Tailwind CSS untuk Pop-up -->
@@ -193,7 +193,7 @@ $sidebar_extra_content = ob_get_clean(); // Ambil output dan simpan ke variabel
     </div>
 
     <!-- Script dashboard asli -->
-    <script src="js/dashboard.js"></script>
+    <script src="/js/dashboard.js"></script>
 
     <!-- Script untuk mengontrol Pop-up -->
     <script>
@@ -223,4 +223,5 @@ $sidebar_extra_content = ob_get_clean(); // Ambil output dan simpan ke variabel
 
 </body>
 </html>
+
 
