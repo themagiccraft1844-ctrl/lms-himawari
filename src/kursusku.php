@@ -33,18 +33,7 @@ $mysqli->close();
     <link rel="stylesheet" href="css/dashboard.css">
 </head>
 <body>
-    <div class="sidebar">
-        <div class="logo">
-            <h2>Platform Kursus</h2>
-        </div>
-        <ul class="nav-links">
-            <li><a href="dashboard.php"><i class="fas fa-home"></i> <span>Dashboard</span></a></li>
-            <li class="active"><a href="kursusku.php"><i class="fas fa-book"></i> <span>Kursus Saya</span></a></li>
-            <li><a href="chat.php"><i class="fas fa-comments"></i> <span>Chat with AI</span></a></li>
-            <li><a href="settings.php"><i class="fas fa-cog"></i> <span>Pengaturan</span></a></li>
-            <li class="logout-link"><a href="logout.php"><i class="fas fa-sign-out-alt"></i> <span>Keluar</span></a></li>
-        </ul>
-    </div>
+    <?php include 'sidebar.php'; // <-- KODE SIDEBAR DIPANGGIL DI SINI ?>
 
     <div class="main-content">
         <header>

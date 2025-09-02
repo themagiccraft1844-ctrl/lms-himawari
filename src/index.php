@@ -1,12 +1,15 @@
 <?php
 // File: index.php
-// Halaman login utama (DIPERBARUI DENGAN STATUS CHECK).
+// Halaman login utama (DIPERBARUI DENGAN LOGIKA VIEW MODE UNTUK ADMIN).
 
 require_once "db.php";
 
 if (isset($_SESSION["loggedin"]) && $_SESSION["loggedin"] === true) {
-    // Arahkan langsung ke dashboard yang sesuai
-    header("location: " . ($_SESSION["role"] === 'admin' ? "admin/index.php" : "dashboard.php"));
+    if ($_SESSION["role"] === 'admin' && ($_SESSION['view_mode'] ?? 'user') === 'admin') {
+         header("location: admin/index.php");
+    } else {
+         header("location: dashboard.php");
+    }
     exit;
 }
 
@@ -18,7 +21,7 @@ if(isset($_GET['status'])){
     if($_GET['status'] == 'verified'){
         $status_msg = '<div class="alert alert-success">Verifikasi berhasil! Silakan login.</div>';
     }
-     if($_GET['status'] == 'registered' || $_GET['status'] == 'success'){ // Menangani redirect dari register
+     if($_GET['status'] == 'registered' || $_GET['status'] == 'success'){ 
         $status_msg = '<div class="alert alert-success">Pendaftaran berhasil! Silakan periksa email Anda untuk mengaktifkan akun.</div>';
     }
 }
@@ -37,8 +40,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     }
 
     if (empty($username_err) && empty($password_err)) {
-        // MODIFIKASI: Tambahkan "AND role = 'user'" untuk memastikan hanya user biasa yang bisa login di sini.
-        $sql = "SELECT id, username, password, role, status FROM users WHERE username = ? AND role = 'user'";
+        // Hapus filter role, biarkan user dan admin login dari sini
+        $sql = "SELECT id, username, password, role, status FROM users WHERE username = ?";
         
         if ($stmt = $mysqli->prepare($sql)) {
             $stmt->bind_param("s", $param_username);
@@ -51,18 +54,24 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                     $stmt->bind_result($id, $username, $hashed_password, $role, $status);
                     if ($stmt->fetch()) {
                         if (password_verify($password, $hashed_password)) {
-                            // Cek status akun
                             if ($status == 'active') {
-                                // Jika berhasil dan aktif, mulai session
                                 session_start();
                                 $_SESSION["loggedin"] = true;
                                 $_SESSION["id"] = $id;
                                 $_SESSION["username"] = $username;
                                 $_SESSION["role"] = $role;
                                 
-                                // MODIFIKASI: Karena sudah difilter untuk 'user', langsung arahkan ke dashboard user.
+                                // === LOGIKA BARU: SET VIEW MODE ===
+                                if ($role === 'admin') {
+                                    // Jika admin login dari sini, set modenya sebagai user
+                                    $_SESSION["view_mode"] = "user";
+                                }
+                                // ====================================
+                                
+                                // Arahkan semua yang login dari sini ke dashboard user
                                 header("location: dashboard.php");
                                 exit;
+
                             } elseif ($status == 'pending_email_verification') {
                                 $login_err = "Akun belum aktif. Silakan periksa email Anda untuk link verifikasi.";
                             } else {
@@ -73,7 +82,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                         }
                     }
                 } else {
-                    // Pesan ini akan muncul jika username tidak ditemukan atau jika username ada tapi bukan 'user'
                     $login_err = "Username atau password salah.";
                 }
             } else {

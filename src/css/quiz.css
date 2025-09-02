@@ -75,3 +75,13 @@
     font-size: 1.2rem;
     margin-top: 1rem;
 }
+
+/* --- ATURAN CSS BARU UNTUK MOBILE --- */
+@media (max-width: 768px) {
+    .quiz-start-container, .quiz-result-container, .quiz-form-container {
+        padding: 1.5rem; /* Kurangi padding di mobile */
+    }
+    .question-text {
+        font-size: 1.1rem; /* Perkecil font soal */
+    }
+}
