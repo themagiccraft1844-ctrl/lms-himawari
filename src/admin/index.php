@@ -1,16 +1,13 @@
 <?php
-// File: admin/index.php (Diperbarui)
+// File: admin/index.php (Diperbarui dengan tombol switch view)
+
+// === PERUBAHAN 1: Memanggil auth_check.php ===
+$required_role = 'admin';
+require_once '../auth_check.php'; // Ganti pengecekan manual dengan file terpusat
 
 require_once "../db.php";
 
-// Cek jika user belum login atau bukan admin
-if(!isset($_SESSION["loggedin"]) || $_SESSION["loggedin"] !== true || $_SESSION["role"] !== 'admin'){
-    header("location: ../index.php");
-    exit;
-}
-
 // --- FITUR BARU: Cek Password Default ---
-// Cek apakah admin saat ini masih menggunakan password default 'admin123'
 $sql_check_pass = "SELECT password FROM users WHERE id = ?";
 if($stmt_check = $mysqli->prepare($sql_check_pass)){
     $stmt_check->bind_param("i", $_SESSION['id']);
@@ -18,7 +15,6 @@ if($stmt_check = $mysqli->prepare($sql_check_pass)){
         $stmt_check->bind_result($hashed_password);
         if($stmt_check->fetch()){
             if(password_verify('admin123', $hashed_password)){
-                // Jika password masih default, paksa ganti password
                 header("location: ganti_password.php?force=true");
                 exit;
             }
@@ -26,7 +22,6 @@ if($stmt_check = $mysqli->prepare($sql_check_pass)){
     }
     $stmt_check->close();
 }
-// -----------------------------------------
 
 // Mengambil semua data kursus dari database
 $sql = "SELECT id, title, description, created_at FROM courses ORDER BY created_at DESC";
@@ -60,6 +55,15 @@ $mysqli->close();
             <li class="active"><a href="index.php"><i class="fas fa-home"></i> <span>Dashboard</span></a></li>
             <li><a href="kelola_user.php"><i class="fas fa-users"></i> <span>Kelola User</span></a></li>
             <li><a href="ganti_password.php"><i class="fas fa-key"></i> <span>Ganti Password</span></a></li>
+            
+            <!-- === PERUBAHAN 2: Tombol untuk kembali ke Tampilan User === -->
+            <li style="border-top: 1px solid var(--border-color); margin-top: 10px; padding-top: 10px;">
+                <a href="../switch_view.php">
+                    <i class="fas fa-user-circle"></i> <span>Lihat Sebagai User</span>
+                </a>
+            </li>
+            <!-- ======================================================= -->
+
             <li class="logout-link"><a href="../logout.php"><i class="fas fa-sign-out-alt"></i> <span>Keluar</span></a></li>
         </ul>
     </div>

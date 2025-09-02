@@ -1,11 +1,9 @@
 <?php
 // File: admin_login.php
-// Halaman login khusus untuk admin.
-// Logikanya sama dengan index.php, hanya tampilannya berbeda.
+// Halaman login khusus untuk admin (DIPERBARUI DENGAN LOGIKA VIEW MODE).
 
 require_once "db.php";
 
-// Jika admin sudah login, arahkan ke dashboard admin
 if (isset($_SESSION["loggedin"]) && $_SESSION["loggedin"] === true && $_SESSION["role"] === 'admin') {
     header("location: admin/index.php");
     exit;
@@ -15,14 +13,11 @@ $username = $password = "";
 $username_err = $password_err = $login_err = "";
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    // Validasi username
     if (empty(trim($_POST["username"]))) {
         $username_err = "Silakan masukkan username.";
     } else {
         $username = trim($_POST["username"]);
     }
-
-    // Validasi password
     if (empty(trim($_POST["password"]))) {
         $password_err = "Silakan masukkan password Anda.";
     } else {
@@ -30,7 +25,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     }
 
     if (empty($username_err) && empty($password_err)) {
-        // CATATAN: Kueri ini sudah benar, karena hanya akan memilih pengguna dengan `role` sebagai 'admin'.
         $sql = "SELECT id, username, password, role FROM users WHERE username = ? AND role = 'admin'";
         
         if ($stmt = $mysqli->prepare($sql)) {
@@ -50,6 +44,10 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                             $_SESSION["id"] = $id;
                             $_SESSION["username"] = $username;
                             $_SESSION["role"] = $role;
+                            // === LOGIKA BARU: SET VIEW MODE ===
+                            // Jika admin login dari sini, set modenya sebagai admin
+                            $_SESSION["view_mode"] = "admin";
+                            // ===================================
                             
                             header("location: admin/index.php");
                         } else {

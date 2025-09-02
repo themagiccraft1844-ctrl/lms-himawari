@@ -416,3 +416,25 @@ body {
     color: var(--primary-color);
 }
 
+/* --- PERBAIKAN TAMPILAN MOBILE UNTUK CHAT --- */
+@media (max-width: 768px) {
+    .main-content > main {
+        padding: 15px 15px 5px 15px; /* Kurangi padding bawah untuk memberi ruang input */
+    }
+
+    .chat-input-area {
+        padding: 1rem; /* Kurangi padding area input */
+    }
+
+    .input-actions {
+        flex-wrap: wrap; /* Izinkan item untuk wrap ke baris baru */
+        gap: 10px;
+    }
+    .input-actions .context-selector-wrapper {
+        width: 100%; /* Buat selector konteks mengambil lebar penuh */
+        order: 1; /* Pindahkan ke baris kedua */
+    }
+    .input-actions .icon-btn, .input-actions .btn {
+        order: 2; /* Pastikan tombol tetap di baris pertama */
+    }
+}

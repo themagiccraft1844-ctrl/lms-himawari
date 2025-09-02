@@ -50,25 +50,38 @@ body {
     font-weight: 500;
 }
 
-/* --- PERBAIKAN CSS UNTUK FITUR MINIMIZE SUB-MENU --- */
+/* --- PERBAIKAN CSS UNTUK FITUR MINIMIZE & SCROLL SUB-MENU --- */
 
-/* Saat sidebar collapsed, sembunyikan semua teks (span) di dalam sub-menu */
+/* 1. Membuat area konten tambahan bisa di-scroll jika isinya meluap */
+.sidebar-extra-content.scrollable {
+    flex-grow: 1;      /* Izinkan elemen ini untuk meregang mengisi ruang kosong */
+    overflow-y: auto;  /* Tampilkan scrollbar HANYA jika kontennya meluap */
+    min-height: 0;     /* Diperlukan untuk flexbox agar tidak meluap secara tidak benar */
+}
+
+/* 2. Saat sidebar di-minimize, sembunyikan semua teks (span) di dalam sub-menu */
 .sidebar.collapsed .settings-nav span {
     display: none;
 }
 
-/* Sembunyikan juga judul "Menu Pengaturan" dan garis pemisahnya */
+/* 3. Sembunyikan juga judul "Menu Pengaturan" dan garis pemisahnya */
 .sidebar.collapsed .sidebar-extra-content h4,
 .sidebar.collapsed .sidebar-extra-content .session-divider {
     display: none;
 }
 
-/* Saat sidebar collapsed, pusatkan ikon di sub-menu */
+/* 4. Saat sidebar di-minimize, pusatkan ikon di sub-menu */
 .sidebar.collapsed .settings-nav a {
     justify-content: center;
 }
 
-/* Hapus margin kanan dari ikon agar benar-benar di tengah */
+/* 5. Hapus margin kanan dari ikon agar benar-benar di tengah */
 .sidebar.collapsed .settings-nav a i {
     margin-right: 0;
 }
+
+/* 6. BARU: Sembunyikan item menu ke-4 dan seterusnya saat sidebar di-minimize */
+.sidebar.collapsed .settings-nav li:nth-child(n+4) {
+    display: none;
+}
+

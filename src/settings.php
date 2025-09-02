@@ -62,7 +62,7 @@ $nim_info = parseNIM($user['nim']);
 ob_start();
 ?>
 
-<div class="sidebar-extra-content">
+<div class="sidebar-extra-content scrollable">
     <hr class="session-divider" style="margin: 10px 0;">
     
     <div class="expanded-settings-view">
@@ -74,6 +74,9 @@ ob_start();
             <li><a href="#"><i class="fas fa-robot"></i> <span>Pengaturan AI</span></a></li>
             <li><a href="#"><i class="fas fa-shield-alt"></i> <span>Akun</span></a></li>
             <li><a href="#"><i class="fas fa-ellipsis-h"></i> <span>Lainnya</span></a></li>
+            <!-- Tambahkan item menu lain di sini untuk melihat efek scroll -->
+            <li><a href="#"><i class="fas fa-bell"></i> <span>Notifikasi</span></a></li>
+            <li><a href="#"><i class="fas fa-question-circle"></i> <span>Bantuan</span></a></li>
         </ul>
     </div>
 
