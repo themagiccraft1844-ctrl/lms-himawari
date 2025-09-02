@@ -38,7 +38,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                     $stmt->bind_result($id, $username, $hashed_password, $role);
                     if ($stmt->fetch()) {
                         if (password_verify($password, $hashed_password)) {
-                            session_start();
+                            // session_start();
                             
                             $_SESSION["loggedin"] = true;
                             $_SESSION["id"] = $id;
@@ -107,3 +107,4 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     </div>
 </body>
 </html>
+
