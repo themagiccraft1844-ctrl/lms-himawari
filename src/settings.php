@@ -101,8 +101,8 @@ $sidebar_extra_content = ob_get_clean(); // Ambil output dan simpan ke variabel
     <!-- CSS Dashboard Asli -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
     <link rel="stylesheet" href="/css/tailwind-output.css">
-    <link rel="stylesheet" href="/css/dashboard.css">
-    <link rel="stylesheet" href="/css/settings.css">
+    <link rel="stylesheet" href="/css/dashboard.css?v=<?php echo filemtime($_SERVER['DOCUMENT_ROOT'] . '/css/dashboard.css'); ?>">
+    <link rel="stylesheet" href="/css/settings.css?v=<?php echo filemtime($_SERVER['DOCUMENT_ROOT'] . '/css/settings.css'); ?>">
 </head>
 <body>
    <?php include 'sidebar.php'; ?>
@@ -226,6 +226,7 @@ $sidebar_extra_content = ob_get_clean(); // Ambil output dan simpan ke variabel
 
 </body>
 </html>
+
 
 
 
