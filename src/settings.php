@@ -1,4 +1,9 @@
 <?php
+// TAMBAHKAN KODE INI UNTUK DEBUGGING
+ini_set('display_errors', 1);
+ini_set('display_startup_errors', 1);
+error_reporting(E_ALL);
+// AKHIR DARI KODE DEBUGGING
 // File: settings.php
 // Pastikan sesi dimulai di awal
 if (session_status() == PHP_SESSION_NONE) {
@@ -223,5 +228,6 @@ $sidebar_extra_content = ob_get_clean(); // Ambil output dan simpan ke variabel
 
 </body>
 </html>
+
 
 
