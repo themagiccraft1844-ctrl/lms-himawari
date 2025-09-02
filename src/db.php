@@ -8,9 +8,9 @@ if (session_status() == PHP_SESSION_NONE) {
 }
 
 // --- SESUAIKAN DENGAN PENGATURAN DATABASE ANDA ---
-define('DB_SERVER', '127.0.0.1');
-define('DB_USERNAME', 'root'); // Ganti dengan username database Anda
-define('DB_PASSWORD', '');     // Ganti dengan password database Anda
+define('DB_SERVER', 'db');
+define('DB_USERNAME', 'admin_hima'); // Ganti dengan username database Anda
+define('DB_PASSWORD', 'Him@war128');     // Ganti dengan password database Anda
 define('DB_NAME', 'db_quiz_lms'); // Ganti dengan nama database Anda
 // ------------------------------------------------
 
