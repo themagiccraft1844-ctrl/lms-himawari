@@ -55,7 +55,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                     if ($stmt->fetch()) {
                         if (password_verify($password, $hashed_password)) {
                             if ($status == 'active') {
-                                session_start();
+                                // session_start();
                                 $_SESSION["loggedin"] = true;
                                 $_SESSION["id"] = $id;
                                 $_SESSION["username"] = $username;
@@ -133,3 +133,4 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     </div>
 </body>
 </html>
+
