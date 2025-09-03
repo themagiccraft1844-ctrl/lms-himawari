@@ -1,5 +1,5 @@
 <?php
-// File: src/settings/profil.php (File BARU)
+// File: src/settings/profil.php (DIPERBARUI)
 
 // Pastikan sesi dimulai di awal
 if (session_status() == PHP_SESSION_NONE) {
@@ -7,6 +7,15 @@ if (session_status() == PHP_SESSION_NONE) {
 }
 
 require_once "../db.php"; 
+
+// Ambil pesan error/sukses dari session jika ada (setelah redirect dari action)
+$password_error = isset($_SESSION['password_error']);
+$new_password_err = $_SESSION['new_password_err'] ?? '';
+$confirm_password_err = $_SESSION['confirm_password_err'] ?? '';
+$password_success = isset($_SESSION['password_success']);
+
+// Hapus pesan dari session agar tidak muncul lagi saat refresh
+unset($_SESSION['password_error'], $_SESSION['new_password_err'], $_SESSION['confirm_password_err'], $_SESSION['password_success']);
 
 // Cek jika user belum login
 if (!isset($_SESSION["loggedin"]) || $_SESSION["loggedin"] !== true) {
@@ -118,6 +127,9 @@ $sidebar_extra_content = ob_get_clean();
         </header>
 
         <main>
+            <?php if ($password_success): ?>
+                <div class="alert alert-success" style="background-color: #d4edda; padding: 1rem; border-radius: 8px; margin-bottom: 1rem;">Password Anda telah berhasil diperbarui.</div>
+            <?php endif; ?>
              <div class="management-grid" style="grid-template-columns: 2fr 1fr; align-items: start;">
                 <div class="form-container">
                     <h3><i class="fas fa-user" style="margin-right: 10px;"></i>Profil Mahasiswa</h3>
@@ -136,13 +148,85 @@ $sidebar_extra_content = ob_get_clean();
                     <div class="form-group">
                         <label>Ganti Password</label>
                         <p class="form-text" style="margin-top: 5px;">Klik tombol di bawah untuk mengganti password Anda.</p>
-                        <a href="/ganti_password.php" class="btn" style="width: 100%;">Ganti Password</a>
+                        <button id="openModalBtn" class="btn" style="width: 100%;">Ganti Password</button>
                     </div>
                 </div>
             </div>
         </main>
     </div>
 
+    <!-- ===== KODE POP-UP (MODAL) GANTI PASSWORD ===== -->
+    <div id="passwordModal" class="fixed inset-0 bg-black bg-opacity-50 z-50 flex items-center justify-center p-4 transition-opacity duration-300 opacity-0 pointer-events-none">
+        <div class="bg-white rounded-2xl shadow-2xl w-full max-w-md transform scale-95 transition-transform duration-300">
+            <header class="p-6 border-b border-gray-200 flex justify-between items-center">
+                <h2 class="text-xl font-semibold text-gray-800">Ganti Password Anda</h2>
+                <button id="closeModalBtn" class="text-gray-400 hover:text-gray-700 transition-colors"><i class="fas fa-times fa-lg"></i></button>
+            </header>
+            <main class="p-6">
+                <div class="form-container" style="box-shadow: none; padding: 0;">
+                    <form action="../actions/ganti_password_action.php" method="post">
+                        <div class="mb-4">
+                            <label for="new_password" class="block text-gray-700 font-medium mb-2">Password Baru</label>
+                            <input type="password" id="new_password" name="new_password" class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all <?php echo (!empty($new_password_err)) ? 'is-invalid' : ''; ?>">
+                            <span class="invalid-feedback" style="display: <?php echo (!empty($new_password_err)) ? 'block' : 'none'; ?>;"><?php echo $new_password_err; ?></span>
+                        </div>
+
+                        <div class="mb-6">
+                            <label for="confirm_password" class="block text-gray-700 font-medium mb-2">Konfirmasi Password Baru</label>
+                            <input type="password" id="confirm_password" name="confirm_password" class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all <?php echo (!empty($confirm_password_err)) ? 'is-invalid' : ''; ?>">
+                            <span class="invalid-feedback" style="display: <?php echo (!empty($confirm_password_err)) ? 'block' : 'none'; ?>;"><?php echo $confirm_password_err; ?></span>
+                        </div>
+
+                        <div>
+                            <input type="submit" class="w-full bg-blue-600 text-white font-bold py-3 px-4 rounded-lg shadow-md hover:bg-blue-700 cursor-pointer transition-all duration-300" value="Update Password">
+                        </div>
+                    </form>
+                </div>
+            </main>
+        </div>
+    </div>
+
     <script src="/js/dashboard.js"></script>
+    <!-- Script untuk mengontrol Pop-up -->
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const modal = document.getElementById('passwordModal');
+            const openBtn = document.getElementById('openModalBtn');
+            const closeBtn = document.getElementById('closeModalBtn');
+            const modalContent = modal.querySelector('div');
+
+            const openModal = () => {
+                modal.classList.remove('opacity-0', 'pointer-events-none');
+                modalContent.classList.remove('scale-95');
+            };
+
+            const closeModal = () => {
+                modal.classList.add('opacity-0', 'pointer-events-none');
+                modalContent.classList.add('scale-95');
+            };
+
+            if(openBtn) {
+                openBtn.addEventListener('click', (e) => {
+                    e.preventDefault();
+                    openModal();
+                });
+            }
+            
+            if(closeBtn) {
+                closeBtn.addEventListener('click', closeModal);
+            }
+
+            if(modal) {
+                 modal.addEventListener('click', (event) => { if (event.target === modal) closeModal(); });
+            }
+           
+            document.addEventListener('keydown', (event) => { if (event.key === 'Escape') closeModal(); });
+            
+            <?php if ($password_error): ?>
+                openModal();
+            <?php endif; ?>
+        });
+    </script>
 </body>
 </html>
+
