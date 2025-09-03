@@ -14,13 +14,13 @@ $current_page = basename($_SERVER['PHP_SELF']);
             <a href="src/dashboard.php"><i class="fas fa-home"></i> <span>Dashboard</span></a>
         </li>
         <li class="<?php echo ($current_page == 'kursusku.php' || $current_page == 'view_course.php') ? 'active' : ''; ?>">
-            <a href="src/kursusku.php"><i class="fas fa-book"></i> <span>Kursus Saya</span></a>
+            <a href="/src/kursusku.php"><i class="fas fa-book"></i> <span>Kursus Saya</span></a>
         </li>
         <li class="<?php echo ($current_page == 'chat.php') ? 'active' : ''; ?>">
-            <a href="src/chat.php"><i class="fas fa-comments"></i> <span>Chat with AI</span></a>
+            <a href="/src/chat.php"><i class="fas fa-comments"></i> <span>Chat with AI</span></a>
         </li>
         <li class="<?php echo ($current_page == 'settings.php') ? 'active' : ''; ?>">
-            <a href="src/settings.php"><i class="fas fa-cog"></i> <span>Pengaturan</span></a>
+            <a href="/src/settings.php"><i class="fas fa-cog"></i> <span>Pengaturan</span></a>
         </li>
         
         <?php
@@ -47,5 +47,6 @@ $current_page = basename($_SERVER['PHP_SELF']);
         </li>
     </ul>
 </div>
+
 
 
