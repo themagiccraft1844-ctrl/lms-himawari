@@ -11,16 +11,16 @@ $current_page = basename($_SERVER['PHP_SELF']);
     
     <ul class="nav-links">
         <li class="<?php echo ($current_page == 'dashboard.php') ? 'active' : ''; ?>">
-            <a href="src/dashboard.php"><i class="fas fa-home"></i> <span>Dashboard</span></a>
+            <a href="dashboard.php"><i class="fas fa-home"></i> <span>Dashboard</span></a>
         </li>
         <li class="<?php echo ($current_page == 'kursusku.php' || $current_page == 'view_course.php') ? 'active' : ''; ?>">
-            <a href="/src/kursusku.php"><i class="fas fa-book"></i> <span>Kursus Saya</span></a>
+            <a href="kursusku.php"><i class="fas fa-book"></i> <span>Kursus Saya</span></a>
         </li>
         <li class="<?php echo ($current_page == 'chat.php') ? 'active' : ''; ?>">
-            <a href="/src/chat.php"><i class="fas fa-comments"></i> <span>Chat with AI</span></a>
+            <a href="chat.php"><i class="fas fa-comments"></i> <span>Chat with AI</span></a>
         </li>
         <li class="<?php echo ($current_page == 'settings.php') ? 'active' : ''; ?>">
-            <a href="/src/settings.php"><i class="fas fa-cog"></i> <span>Pengaturan</span></a>
+            <a href="settings.php"><i class="fas fa-cog"></i> <span>Pengaturan</span></a>
         </li>
         
         <?php
@@ -28,7 +28,7 @@ $current_page = basename($_SERVER['PHP_SELF']);
         if (isset($_SESSION['role']) && $_SESSION['role'] === 'admin' && ($_SESSION['view_mode'] ?? 'user') === 'user'):
         ?>
             <li style="border-top: 1px solid var(--border-color); margin-top: 10px; padding-top: 10px;">
-                <a href="src/switch_view.php" style="color: var(--primary-color); background-color: var(--primary-light);">
+                <a href="switch_view.php" style="color: var(--primary-color); background-color: var(--primary-light);">
                     <i class="fas fa-user-shield"></i> <span>Masuk Panel Admin</span>
                 </a>
             </li>
@@ -47,6 +47,7 @@ $current_page = basename($_SERVER['PHP_SELF']);
         </li>
     </ul>
 </div>
+
 
 
 
