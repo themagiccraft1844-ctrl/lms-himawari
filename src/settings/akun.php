@@ -1,5 +1,5 @@
 <?php
-// File: src/settings/akun.php (File BARU - Placeholder)
+// File: src/settings/akun.php (DIPERBARUI)
 
 if (session_status() == PHP_SESSION_NONE) { session_start(); }
 require_once "../db.php"; 
@@ -66,8 +66,8 @@ $sidebar_extra_content = ob_get_clean();
             <div class="form-container">
                 <h3><i class="fas fa-shield-alt" style="margin-right: 10px;"></i>Akun</h3>
                 <p>Di sini Anda dapat mengelola informasi akun, mengubah email (jika diizinkan), dan menonaktifkan akun Anda.</p>
-                <div class="form-group">
-                    <a href="/ganti_password.php" class="btn">Ganti Password</a>
+                 <div class="form-group">
+                    <a href="profil.php" class="btn">Lihat Detail Akun & Ganti Password</a>
                 </div>
             </div>
         </main>
@@ -75,3 +75,4 @@ $sidebar_extra_content = ob_get_clean();
     <script src="/js/dashboard.js"></script>
 </body>
 </html>
+
