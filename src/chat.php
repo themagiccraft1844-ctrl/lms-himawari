@@ -37,7 +37,7 @@ $sidebar_extra_content = ob_get_clean(); // Ambil output dan simpan ke variabel
 </head>
 <body>
     <?php include 'sidebar.php'; ?>    
-
+    <?php require_once 'theme_loader.php'; ?>
     <div class="main-content">
         <header>
             <div class="header-title">

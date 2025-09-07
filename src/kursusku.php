@@ -1,6 +1,7 @@
 <?php
-// File: kursusku.php
+// File: kursusku.php (Diperbaiki)
 
+session_start(); // Selalu mulai sesi di awal
 require_once "db.php";
 
 // Cek jika user belum login
@@ -20,7 +21,7 @@ if($result = $mysqli->query($sql)){
         $result->free();
     }
 }
-$mysqli->close();
+// PERBAIKAN: Jangan tutup koneksi di sini
 ?>
 
 <!DOCTYPE html>
@@ -29,12 +30,14 @@ $mysqli->close();
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Kursus Saya - Platform Kursus</title>
+    
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
-    <link rel="stylesheet" href="css/dashboard.css">
+    <link rel="stylesheet" href="css/dashboard.css?v=<?php echo time(); ?>">
+    <?php require_once 'theme_loader.php'; ?>
 </head>
 <body>
     <?php include 'sidebar.php'; // <-- KODE SIDEBAR DIPANGGIL DI SINI ?>
-
+    
     <div class="main-content">
         <header>
             <div class="header-title">
@@ -57,7 +60,7 @@ $mysqli->close();
         </header>
 
         <main>
-            <h3 class="main-title">Daftar Semua Kursus</h3>
+            <h3 class="main-title"><?php echo lang('daftar_kursus'); ?></h3>
             <div class="course-grid">
                 <?php if(!empty($courses)): ?>
                     <?php foreach($courses as $course): ?>
@@ -68,7 +71,7 @@ $mysqli->close();
                                 <h4><?php echo htmlspecialchars($course['title']); ?></h4>
                                 <p><?php echo htmlspecialchars(substr($course['description'], 0, 100)) . '...'; ?></p>
                                 <div class="card-footer">
-                                    <span>Lihat Selengkapnya <i class="fas fa-arrow-right"></i></span>
+                                    <span><?php echo lang('lihat_selengkapnya'); ?> <i class="fas fa-arrow-right"></i></span>
                                 </div>
                             </div>
                         </a>
@@ -83,3 +86,10 @@ $mysqli->close();
     <script src="js/dashboard.js"></script>
 </body>
 </html>
+<?php
+// PERBAIKAN: Tutup koneksi di akhir setelah semua pemrosesan selesai
+if (isset($mysqli) && $mysqli instanceof mysqli) {
+    $mysqli->close();
+}
+?>
+

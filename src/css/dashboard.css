@@ -1,17 +1,31 @@
-/* File: css/dashboard.css (Dibersihkan) */
+/* File: css/dashboard.css (Diperbarui dengan Variabel CSS untuk Theming) */
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&display=swap');
 
 :root {
-    --primary-color: #4a90e2;
+    /* Variabel Warna (akan di-override oleh theme_loader.php) */
+    --primary-color: #4a90e2; /* Biru Default */
     --primary-light: #e9f2fe;
-    --secondary-color: #f5f7fa;
+
+    /* Variabel Tema Terang (Light Mode) */
+    --bg-color: #f5f7fa;
+    --content-bg: #ffffff;
     --text-color: #333;
     --text-grey: #777;
-    --white-color: #ffffff;
     --border-color: #e0e0e0;
     --shadow-color: rgba(0, 0, 0, 0.08);
+
     --sidebar-width: 260px;
     --sidebar-collapsed-width: 80px;
+}
+
+html.dark {
+    /* Variabel Tema Gelap (Dark Mode) */
+    --bg-color: #1a1a1a;
+    --content-bg: #2a2a2a;
+    --text-color: #f0f0f0;
+    --text-grey: #a0a0a0;
+    --border-color: #444;
+    --shadow-color: rgba(0, 0, 0, 0.2);
 }
 
 * {
@@ -19,10 +33,12 @@
     margin: 0;
     box-sizing: border-box;
     font-family: 'Inter', sans-serif;
+    transition: background-color 0.2s, color 0.2s;
 }
 
 body {
-    background-color: var(--secondary-color);
+    background-color: var(--bg-color);
+    color: var(--text-color);
     display: flex;
 }
 
@@ -30,7 +46,7 @@ body {
 .sidebar {
     width: var(--sidebar-width);
     height: 100vh;
-    background: var(--white-color);
+    background: var(--content-bg);
     position: fixed;
     left: 0;
     top: 0;
@@ -104,6 +120,7 @@ body {
     padding: 0;
 }
 
+
 /* Main Content */
 .main-content {
     margin-left: var(--sidebar-width);
@@ -116,7 +133,7 @@ header {
     justify-content: space-between;
     align-items: center;
     padding: 20px;
-    background: var(--white-color);
+    background: var(--content-bg);
     border-bottom: 1px solid var(--border-color);
     position: sticky;
     top: 0;
@@ -177,7 +194,8 @@ main {
 }
 
 .sidebar.collapsed .logo h2,
-.sidebar.collapsed .nav-links a span {
+.sidebar.collapsed .nav-links a span,
+.sidebar.collapsed .sidebar-extra-content {
     display: none;
 }
 
@@ -203,7 +221,7 @@ main {
 }
 
 .card {
-    background: var(--white-color);
+    background: var(--content-bg);
     padding: 20px;
     border-radius: 12px;
     box-shadow: 0 4px 8px var(--shadow-color);
@@ -228,8 +246,8 @@ main {
 }
 
 .welcome-card {
-    background: linear-gradient(135deg, var(--primary-color), #357abd);
-    color: var(--white-color);
+    background: var(--primary-color);
+    color: #ffffff;
     padding: 30px;
     border-radius: 12px;
 }
@@ -240,7 +258,7 @@ main {
 }
 
 .content-table {
-    background: var(--white-color);
+    background: var(--content-bg);
     border-radius: 12px;
     box-shadow: 0 4px 8px var(--shadow-color);
     overflow-x: auto;
@@ -252,7 +270,7 @@ table {
 }
 
 thead tr {
-    background-color: #f9fafb;
+    background-color: var(--bg-color);
     border-bottom: 2px solid var(--border-color);
 }
 
@@ -270,7 +288,7 @@ tbody tr:last-child td { border-bottom: none; }
     padding: 5px 10px;
     border-radius: 5px;
     text-decoration: none;
-    color: var(--white-color);
+    color: #ffffff;
     font-size: 14px;
     margin-right: 5px;
 }
@@ -278,7 +296,7 @@ tbody tr:last-child td { border-bottom: none; }
 .delete { background-color: #f44336; }
 
 .form-container, .add-content-container {
-    background: var(--white-color);
+    background: var(--content-bg);
     padding: 30px;
     border-radius: 12px;
     box-shadow: 0 4px 8px var(--shadow-color);
@@ -297,7 +315,7 @@ tbody tr:last-child td { border-bottom: none; }
 }
 
 .content-list-container, .quiz-builder-container {
-    background: var(--white-color);
+    background: var(--content-bg);
     padding: 20px;
     border-radius: 12px;
     box-shadow: 0 4px 8px var(--shadow-color);
@@ -315,7 +333,7 @@ tbody tr:last-child td { border-bottom: none; }
     border-bottom: 1px solid var(--border-color);
     transition: background-color 0.2s;
 }
-.content-list li:hover { background-color: #f9fafb; }
+.content-list li:hover { background-color: var(--bg-color); }
 .content-list li i {
     margin-right: 15px;
     color: var(--primary-color);
@@ -367,7 +385,7 @@ tbody tr:last-child td { border-bottom: none; }
     border: 1px solid var(--border-color);
 }
 
-/* === ATURAN CSS UNTUK SEMUA FORM DI DASHBOARD === */
+/* === Form Styles === */
 .form-group {
     margin-bottom: 20px;
 }
@@ -385,21 +403,22 @@ tbody tr:last-child td { border-bottom: none; }
     border: 1px solid var(--border-color);
     border-radius: 8px;
     box-sizing: border-box;
-    transition: border-color 0.3s;
+    transition: border-color 0.3s, box-shadow 0.3s;
     font-size: 16px;
-    background-color: #fdfdfd;
+    background-color: var(--bg-color);
+    color: var(--text-color);
 }
 
 .form-control:focus {
     outline: none;
     border-color: var(--primary-color);
-    box-shadow: 0 0 0 3px rgba(74, 144, 226, 0.2);
+    box-shadow: 0 0 0 3px color-mix(in srgb, var(--primary-color) 20%, transparent);
 }
 
 .btn {
     display: inline-block;
     background-color: var(--primary-color);
-    color: var(--white-color);
+    color: #ffffff;
     border: none;
     border-radius: 8px;
     padding: 12px 24px;
@@ -412,11 +431,11 @@ tbody tr:last-child td { border-bottom: none; }
 }
 
 .btn:hover {
-    background-color: #357abd;
+    background-color: color-mix(in srgb, var(--primary-color) 85%, black);
     transform: translateY(-2px);
 }
 
-/* === ATURAN CSS UNTUK PREVIEW === */
+/* === Preview Styles === */
 .content-link {
     flex-grow: 1;
     display: flex;
@@ -426,7 +445,7 @@ tbody tr:last-child td { border-bottom: none; }
 }
 
 .preview-container {
-    background: var(--white-color);
+    background: var(--content-bg);
     padding: 30px;
     border-radius: 12px;
     box-shadow: 0 4px 8px var(--shadow-color);
@@ -472,7 +491,7 @@ tbody tr:last-child td { border-bottom: none; }
 }
 
 .preview-quiz .quiz-options .correct-option {
-    background-color: #d4edda; /* Hijau untuk jawaban benar */
+    background-color: #d4edda;
     border-left: 4px solid #28a745;
     font-weight: bold;
 }
@@ -481,7 +500,7 @@ tbody tr:last-child td { border-bottom: none; }
     color: #28a745;
 }
 
-/* === ATURAN CSS BARU UNTUK DASHBOARD USER === */
+/* === User Dashboard Styles === */
 
 .main-title {
     margin-top: 2rem;
@@ -490,7 +509,6 @@ tbody tr:last-child td { border-bottom: none; }
     color: var(--text-color);
 }
 
-/* Course Grid */
 .course-grid {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
@@ -498,7 +516,7 @@ tbody tr:last-child td { border-bottom: none; }
 }
 
 .course-card {
-    background: var(--white-color);
+    background: var(--content-bg);
     border-radius: 12px;
     box-shadow: 0 4px 12px var(--shadow-color);
     text-decoration: none;
@@ -517,7 +535,7 @@ tbody tr:last-child td { border-bottom: none; }
 .course-card .card-banner {
     height: 160px;
     width: 100%;
-    background-color: #e0e0e0;
+    background-color: var(--border-color);
     background-size: cover;
     background-position: center;
 }
@@ -555,7 +573,7 @@ tbody tr:last-child td { border-bottom: none; }
     color: var(--primary-color);
 }
 
-/* Accordion for View Course Page */
+/* Accordion */
 .course-description {
     margin-bottom: 2rem;
     padding-bottom: 1.5rem;
@@ -564,7 +582,7 @@ tbody tr:last-child td { border-bottom: none; }
 }
 
 .accordion-item {
-    background-color: var(--white-color);
+    background-color: var(--content-bg);
     margin-bottom: 10px;
     border-radius: 8px;
     box-shadow: 0 2px 4px var(--shadow-color);
@@ -573,7 +591,7 @@ tbody tr:last-child td { border-bottom: none; }
 
 .accordion-header {
     width: 100%;
-    background-color: var(--white-color);
+    background-color: var(--content-bg);
     border: none;
     padding: 20px;
     font-size: 16px;
@@ -616,7 +634,7 @@ tbody tr:last-child td { border-bottom: none; }
     text-align: center;
 }
 
-/* === ATURAN CSS BARU UNTUK EDITOR KUIS === */
+/* Quiz Editor */
 .question-list-admin {
     margin-bottom: 30px;
     border-top: 1px solid var(--border-color);
@@ -651,14 +669,14 @@ tbody tr:last-child td { border-bottom: none; }
     margin: 0;
 }
 
-/* === Dropdown Menu for User Profile === */
+/* Dropdown Menu */
 .dropdown-menu {
     position: absolute;
     top: 110%; 
     right: 0;
-    background-color: var(--white-color);
+    background-color: var(--bg-color); /* Menggunakan variabel tema */
     border-radius: 8px;
-    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+    box-shadow: 0 4px 12px var(--shadow-color); /* Menggunakan variabel tema */
     width: 200px;
     z-index: 1000;
     overflow: hidden;
@@ -666,6 +684,7 @@ tbody tr:last-child td { border-bottom: none; }
     transition: opacity 0.2s ease, transform 0.2s ease;
     opacity: 0;
     transform: translateY(-10px);
+    border: 1px solid var(--border-color);
 }
 .dropdown-menu.show {
     display: block;
@@ -681,34 +700,25 @@ tbody tr:last-child td { border-bottom: none; }
     transition: background-color 0.2s ease;
 }
 .dropdown-item:hover {
-    background-color: #f5f5f5;
+    background-color: var(--hover-color); /* Menggunakan variabel tema */
     color: var(--primary-color);
 }
 
-/* ======================================================= */
-/* === ATURAN CSS BARU UNTUK TAMPILAN MOBILE RESPONSIVE === */
-/* ======================================================= */
+/* Responsive */
 @media (max-width: 992px) {
-    /* Aturan umum untuk layar lebih kecil (tablet & mobile) */
     .sidebar {
-        /* Secara default, sidebar akan collapsed */
-        width: var(--sidebar-collapsed-width);
-    }
-    .sidebar.collapsed {
         width: var(--sidebar-collapsed-width);
     }
     .main-content {
         width: calc(100% - var(--sidebar-collapsed-width));
         margin-left: var(--sidebar-collapsed-width);
     }
-    /* Saat sidebar dibuka (tidak collapsed), jadikan overlay */
     .sidebar:not(.collapsed) {
         width: var(--sidebar-width);
         position: fixed;
         z-index: 101;
         box-shadow: 0 0 15px rgba(0,0,0,0.2);
     }
-    /* Saat sidebar dibuka, konten utama tidak bergeser */
     .main-content.expanded {
         width: calc(100% - var(--sidebar-collapsed-width));
         margin-left: var(--sidebar-collapsed-width);
@@ -716,7 +726,6 @@ tbody tr:last-child td { border-bottom: none; }
 }
 
 @media (max-width: 768px) {
-    /* Aturan spesifik untuk mobile */
     header {
         padding: 15px;
     }
@@ -724,7 +733,7 @@ tbody tr:last-child td { border-bottom: none; }
         font-size: 1.1rem;
     }
     .user-wrapper h4 {
-        display: none; /* Sembunyikan nama di header mobile */
+        display: none;
     }
     .user-wrapper i {
         margin-right: 0;
@@ -733,10 +742,10 @@ tbody tr:last-child td { border-bottom: none; }
         padding: 15px;
     }
     .management-grid {
-        grid-template-columns: 1fr; /* Buat grid menjadi satu kolom */
+        grid-template-columns: 1fr;
     }
     .course-grid {
-        grid-template-columns: 1fr; /* Buat grid kursus menjadi satu kolom */
+        grid-template-columns: 1fr;
     }
     .form-container, .add-content-container {
         padding: 20px;

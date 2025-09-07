@@ -2,6 +2,7 @@
 // File: dashboard.php
 
 require_once "db.php";
+require_once "language_loader.php"; // -> Memuat fungsi lang()
 
 // Cek jika user belum login
 if(!isset($_SESSION["loggedin"]) || $_SESSION["loggedin"] !== true){
@@ -38,10 +39,10 @@ if ($stmt = $mysqli->prepare("SELECT full_name FROM users WHERE id = ?")) {
     <title>Dashboard - Platform Kursus</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
     <link rel="stylesheet" href="css/dashboard.css">
+    <?php require_once 'theme_loader.php'; ?>
 </head>
 <body>
     <?php include 'sidebar.php'; // <-- KODE SIDEBAR DIPANGGIL DI SINI ?>
-
     <div class="main-content">
         <header>
             <div class="header-title">
@@ -67,7 +68,7 @@ if ($stmt = $mysqli->prepare("SELECT full_name FROM users WHERE id = ?")) {
         <main>
             <div class="welcome-card">
                 <!-- PERUBAHAN 2: Menampilkan full_name di kartu selamat datang -->
-                <h3>Selamat Datang Kembali, <?php echo htmlspecialchars($full_name); ?>!</h3>
+                <h3><?php echo lang('welcome'); ?>, <?php echo htmlspecialchars($full_name); ?>!</h3>
                 <p>Jelajahi kursus-kursus yang tersedia dan tingkatkan pengetahuan Anda.</p>
             </div>
 
