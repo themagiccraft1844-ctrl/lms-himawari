@@ -1,37 +1,22 @@
 <?php
-// File: src/settings/profil.php (DIPERBARUI MENJADI KONTEN SAJA)
-// File ini sekarang hanya berisi konten spesifik untuk halaman profil.
+// File: src/settings/profil.php (DIPERBARUI DENGAN MODAL YANG BENAR)
 
-// Pastikan sesi sudah dimulai oleh file induk (settings.php)
 if (session_status() == PHP_SESSION_NONE) {
-    // Seharusnya tidak terjadi, tapi sebagai pengaman
     header("location: ../settings.php");
     exit;
 }
 
-// Ambil pesan error/sukses dari session jika ada
-$password_error = isset($_SESSION['password_error']);
-$new_password_err = $_SESSION['new_password_err'] ?? '';
-$confirm_password_err = $_SESSION['confirm_password_err'] ?? '';
-$password_success = isset($_SESSION['password_success']);
-
-// Hapus pesan dari session agar tidak muncul lagi saat refresh
-unset($_SESSION['password_error'], $_SESSION['new_password_err'], $_SESSION['confirm_password_err'], $_SESSION['password_success']);
-
-// Ambil data user dari database
 $user_id = $_SESSION['id'];
-$stmt = $mysqli->prepare("SELECT username, full_name, nim, email FROM users WHERE id = ?");
+$stmt = $mysqli->prepare("SELECT username, full_name, nim, email, profile_picture_url FROM users WHERE id = ?");
 $stmt->bind_param("i", $user_id);
 $stmt->execute();
-$user_result = $stmt->get_result();
-$user = $user_result->fetch_assoc();
+$user = $stmt->get_result()->fetch_assoc();
 $stmt->close();
 
 if (!$user) {
     die("User tidak ditemukan.");
 }
 
-// Fungsi untuk mem-parsing NIM
 function parseNIM($nim) {
     $info = [ 'fakultas' => 'Tidak Diketahui', 'kampus' => 'Tidak Diketahui', 'jenjang' => 'Tidak Diketahui', 'prodi' => 'Tidak Diketahui', 'angkatan' => 'Tidak Diketahui', 'semester_masuk' => 'Tidak Diketahui', 'nomor_urut' => 'Tidak Diketahui' ];
     if (strlen($nim) < 10) return $info;
@@ -54,12 +39,74 @@ function parseNIM($nim) {
 
 $nim_info = parseNIM($user['nim']);
 ?>
+<style>
+/* Gaya untuk Foto Profil dan Modal (diadaptasi dari akun.php) */
+.profile-picture-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1rem;
+    padding: 1rem;
+    background-color: var(--hover-color);
+    border-radius: 12px;
+    margin-bottom: 2rem;
+}
+.profile-picture {
+    width: 120px;
+    height: 120px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 4px solid var(--content-bg);
+    box-shadow: 0 4px 8px var(--shadow-color);
+}
+.profile-picture-container .btn {
+    width: auto;
+}
 
-<!-- KONTEN SPESIFIK HALAMAN PROFIL DIMULAI DI SINI -->
-<?php if ($password_success): ?>
-    <div class="alert alert-success" style="background-color: #d4edda; padding: 1rem; border-radius: 8px; margin-bottom: 1rem;">Password Anda telah berhasil diperbarui.</div>
-<?php endif; ?>
+/* === GAYA MODAL (diambil dari akun.php) === */
+.modal-overlay {
+    position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+    background-color: rgba(0, 0, 0, 0.6);
+    backdrop-filter: blur(5px); -webkit-backdrop-filter: blur(5px);
+    display: none; align-items: center; justify-content: center;
+    z-index: 1000; opacity: 0; transition: opacity 0.3s ease;
+}
+.modal-overlay.show { display: flex; opacity: 1; }
+.modal-content {
+    background: var(--content-bg); padding: 0; border-radius: 12px;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+    width: 90%; max-width: 500px;
+    transform: scale(0.95); transition: transform 0.3s ease;
+}
+.modal-overlay.show .modal-content { transform: scale(1); }
+.modal-header {
+    display: flex; justify-content: space-between; align-items: center;
+    padding: 1rem 1.5rem; border-bottom: 1px solid var(--border-color);
+}
+.modal-header h2 { margin: 0; font-size: 1.25rem; }
+.modal-close-btn { background: none; border: none; font-size: 1.5rem; cursor: pointer; color: var(--text-grey); }
+.modal-body { padding: 1.5rem; }
 
+/* === GAYA TOMBOL UPLOAD (diambil dari style.css) === */
+.file-upload-label {
+    display: flex; align-items: center; justify-content: center;
+    gap: 10px; padding: 20px; background-color: var(--bg-color);
+    border: 2px dashed var(--border-color); border-radius: 8px;
+    cursor: pointer; transition: all 0.3s ease;
+    color: var(--text-grey); font-weight: 500;
+}
+.file-upload-label:hover, .file-upload-label.drag-over {
+    background-color: var(--primary-light); border-color: var(--primary-color); color: var(--primary-color);
+}
+.file-upload-label i { font-size: 1.5rem; }
+.file-name-display {
+    display: block; margin-top: 10px; font-size: 0.9rem;
+    color: var(--text-grey); text-align: center; white-space: nowrap;
+    overflow: hidden; text-overflow: ellipsis;
+}
+</style>
+
+<!-- KONTEN SPESIFIK HALAMAN PROFIL -->
 <div class="management-grid" style="grid-template-columns: 2fr 1fr; align-items: start;">
     <div class="form-container">
         <h3><i class="fas fa-user" style="margin-right: 10px;"></i>Profil Mahasiswa</h3>
@@ -72,44 +119,67 @@ $nim_info = parseNIM($user['nim']);
     </div>
 
     <div class="form-container">
-        <h3><i class="fas fa-shield-alt" style="margin-right: 10px;"></i>Akun</h3>
+        <h3><i class="fas fa-user-circle" style="margin-right: 10px;"></i>Akun</h3>
+        <div class="profile-picture-container">
+            <img src="<?php echo !empty($user['profile_picture_url']) ? htmlspecialchars($user['profile_picture_url']) : 'https://placehold.co/120x120/EFEFEF/AAAAAA&text=Profil'; ?>" alt="Foto Profil" class="profile-picture">
+            <button id="openUploadModalBtn" class="btn">Ubah Foto Profil</button>
+        </div>
         <div class="form-group"><label>Username</label><input type="text" class="form-control" value="<?php echo htmlspecialchars($user['username']); ?>" readonly></div>
         <div class="form-group"><label>Email</label><input type="email" class="form-control" value="<?php echo htmlspecialchars($user['email']); ?>" readonly></div>
-        <div class="form-group">
-            <label>Ganti Password</label>
-            <p class="form-text" style="margin-top: 5px;">Klik tombol di bawah untuk mengganti password Anda.</p>
-            <button id="openModalBtn" class="btn" style="width: 100%;">Ganti Password</button>
-        </div>
     </div>
 </div>
 
-<!-- ===== KODE POP-UP (MODAL) GANTI PASSWORD ===== -->
-<div id="passwordModal" class="fixed inset-0 bg-black bg-opacity-50 z-50 flex items-center justify-center p-4 transition-opacity duration-300 opacity-0 pointer-events-none">
-    <div class="bg-white rounded-2xl shadow-2xl w-full max-w-md transform scale-95 transition-transform duration-300">
-        <header class="p-6 border-b border-gray-200 flex justify-between items-center">
-            <h2 class="text-xl font-semibold text-gray-800">Ganti Password Anda</h2>
-            <button id="closeModalBtn" class="text-gray-400 hover:text-gray-700 transition-colors"><i class="fas fa-times fa-lg"></i></button>
+<!-- ===== KODE POP-UP (MODAL) UPLOAD FOTO PROFIL (Struktur Diperbaiki) ===== -->
+<div id="uploadModal" class="modal-overlay">
+    <div class="modal-content">
+        <header class="modal-header">
+            <h2>Ubah Foto Profil</h2>
+            <button id="closeUploadModalBtn" class="modal-close-btn"><i class="fas fa-times"></i></button>
         </header>
-        <main class="p-6">
-            <div class="form-container" style="box-shadow: none; padding: 0;">
-                <form action="actions/ganti_password_action.php" method="post">
-                    <div class="mb-4">
-                        <label for="new_password" class="block text-gray-700 font-medium mb-2">Password Baru</label>
-                        <input type="password" id="new_password" name="new_password" class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all <?php echo (!empty($new_password_err)) ? 'is-invalid' : ''; ?>">
-                        <span class="invalid-feedback" style="display: <?php echo (!empty($new_password_err)) ? 'block' : 'none'; ?>;"><?php echo $new_password_err; ?></span>
-                    </div>
-
-                    <div class="mb-6">
-                        <label for="confirm_password" class="block text-gray-700 font-medium mb-2">Konfirmasi Password Baru</label>
-                        <input type="password" id="confirm_password" name="confirm_password" class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all <?php echo (!empty($confirm_password_err)) ? 'is-invalid' : ''; ?>">
-                        <span class="invalid-feedback" style="display: <?php echo (!empty($confirm_password_err)) ? 'block' : 'none'; ?>;"><?php echo $confirm_password_err; ?></span>
-                    </div>
-
-                    <div>
-                        <input type="submit" class="w-full bg-blue-600 text-white font-bold py-3 px-4 rounded-lg shadow-md hover:bg-blue-700 cursor-pointer transition-all duration-300" value="Update Password">
-                    </div>
-                </form>
-            </div>
+        <main class="modal-body">
+            <form action="settings/actions/update_profile_picture_action.php" method="post" enctype="multipart/form-data">
+                <div class="form-group">
+                    <label for="profile_picture" class="file-upload-label">
+                        <i class="fas fa-cloud-upload-alt"></i>
+                        <span>Pilih File Gambar</span>
+                    </label>
+                    <input type="file" name="profile_picture" id="profile_picture" accept="image/jpeg, image/png, image/gif" style="display:none;" required>
+                    <span id="file-name-display-modal" class="file-name-display">Belum ada file yang dipilih.</span>
+                </div>
+                <div class="form-group">
+                    <input type="submit" class="btn" style="width:100%;" value="Simpan Foto">
+                </div>
+            </form>
         </main>
     </div>
 </div>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    // --- Logika Modal Upload Foto ---
+    const modal = document.getElementById('uploadModal');
+    const openBtn = document.getElementById('openUploadModalBtn');
+    const closeBtn = document.getElementById('closeUploadModalBtn');
+    const fileInput = document.getElementById('profile_picture');
+    const fileNameDisplay = document.getElementById('file-name-display-modal');
+
+    if (modal && openBtn && closeBtn && fileInput) {
+        openBtn.addEventListener('click', () => modal.classList.add('show'));
+        closeBtn.addEventListener('click', () => modal.classList.remove('show'));
+        modal.addEventListener('click', (event) => {
+            if (event.target === modal) {
+                modal.classList.remove('show');
+            }
+        });
+        
+        fileInput.addEventListener('change', function() {
+            if (this.files && this.files.length > 0) {
+                fileNameDisplay.textContent = this.files[0].name;
+            } else {
+                fileNameDisplay.textContent = 'Belum ada file yang dipilih.';
+            }
+        });
+    }
+});
+</script>
+

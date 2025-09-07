@@ -10,20 +10,20 @@ if(!isset($_SESSION["loggedin"]) || $_SESSION["loggedin"] !== true){
     exit;
 }
 
-// --- TAMBAHAN KODE: Mengambil full_name dari database ---
-// Ambil ID user dari session
+// --- TAMBAHAN KODE: Mengambil full_name dan foto profil dari database ---
 $user_id = $_SESSION['id'];
-$full_name = $_SESSION['username']; // Default fallback jika query gagal
+$full_name = $_SESSION['username']; // Default fallback
+$profile_picture_url = ''; // Default kosong
 
-// Siapkan query untuk mengambil full_name
-if ($stmt = $mysqli->prepare("SELECT full_name FROM users WHERE id = ?")) {
+// Siapkan query untuk mengambil data pengguna
+if ($stmt = $mysqli->prepare("SELECT full_name, profile_picture_url FROM users WHERE id = ?")) {
     $stmt->bind_param("i", $user_id);
     $stmt->execute();
     $result = $stmt->get_result();
     
-    // Jika user ditemukan, ambil full_name-nya
     if ($user = $result->fetch_assoc()) {
         $full_name = $user['full_name'];
+        $profile_picture_url = $user['profile_picture_url'];
     }
     $stmt->close();
 }
@@ -40,6 +40,9 @@ if ($stmt = $mysqli->prepare("SELECT full_name FROM users WHERE id = ?")) {
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
     <link rel="stylesheet" href="css/dashboard.css">
     <?php require_once 'theme_loader.php'; ?>
+    <style>
+        .profile-pic-header { width: 36px; height: 36px; border-radius: 50%; object-fit: cover; margin-right: 15px; }
+    </style>
 </head>
 <body>
     <?php include 'sidebar.php'; // <-- KODE SIDEBAR DIPANGGIL DI SINI ?>
@@ -51,9 +54,12 @@ if ($stmt = $mysqli->prepare("SELECT full_name FROM users WHERE id = ?")) {
             </div>
             <div class="header-actions">
                 <div class="user-wrapper" id="user-menu-toggle">
-                    <i class="fas fa-user-circle"></i>
+                    <?php if (!empty($profile_picture_url)): ?>
+                        <img src="<?php echo htmlspecialchars($profile_picture_url); ?>" alt="Foto Profil" class="profile-pic-header">
+                    <?php else: ?>
+                        <i class="fas fa-user-circle"></i>
+                    <?php endif; ?>
                     <div>
-                        <!-- PERUBAHAN 1: Menampilkan full_name di header -->
                         <h4><?php echo htmlspecialchars($full_name); ?></h4>
                         <small>User</small>
                     </div>
@@ -67,7 +73,6 @@ if ($stmt = $mysqli->prepare("SELECT full_name FROM users WHERE id = ?")) {
 
         <main>
             <div class="welcome-card">
-                <!-- PERUBAHAN 2: Menampilkan full_name di kartu selamat datang -->
                 <h3><?php echo lang('welcome'); ?>, <?php echo htmlspecialchars($full_name); ?>!</h3>
                 <p>Jelajahi kursus-kursus yang tersedia dan tingkatkan pengetahuan Anda.</p>
             </div>
@@ -121,4 +126,3 @@ if ($stmt = $mysqli->prepare("SELECT full_name FROM users WHERE id = ?")) {
     <script src="js/dashboard.js"></script>
 </body>
 </html>
-

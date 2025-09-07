@@ -17,6 +17,7 @@ unset($_SESSION['register_error']);
     <title>Registrasi Akun Mahasiswa via KTM</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
     <link rel="stylesheet" href="css/style.css">
+    <?php require_once 'theme_loader.php'; // Tambahkan ini untuk dark mode ?>
     <!-- Memuat Tesseract.js & jsQR dari CDN -->
     <script src='https://cdn.jsdelivr.net/npm/tesseract.js@5/dist/tesseract.min.js'></script>
     <script src="https://cdn.jsdelivr.net/npm/jsqr@1/dist/jsQR.min.js"></script>
@@ -630,4 +631,3 @@ function parseTextFromOcr(data) {
 
 </body>
 </html>
-

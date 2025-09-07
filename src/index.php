@@ -101,6 +101,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Login - Platform Kursus</title>
     <link rel="stylesheet" href="css/style.css">
+    <?php require_once 'theme_loader.php'; // Tambahkan ini untuk dark mode ?>
 </head>
 <body>
     <div class="auth-container">
@@ -133,4 +134,3 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     </div>
 </body>
 </html>
-

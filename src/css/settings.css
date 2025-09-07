@@ -3,20 +3,12 @@ body {
     font-family: 'Inter', sans-serif;
 }
 
-/* === FIX UNTUK KONFLIK TAILWIND === */
-/* Mengembalikan ukuran font header yang di-reset oleh Tailwind */
-.header-title h2 {
-    font-size: 1.5rem; /* Sekitar 24px */
-    font-weight: 600;
-}
-/* ==================================== */
-
 /* Style kustom untuk pop-up */
-.invalid-feedback { color: #e53e3e; font-size: 0.875rem; margin-top: 0.25rem; }
-.is-invalid { border-color: #e53e3e; }
+.invalid-feedback { color: var(--danger-color); font-size: 0.875rem; margin-top: 0.25rem; }
+.is-invalid { border-color: var(--danger-color); }
 .alert { padding: 1rem; margin-bottom: 1rem; border-radius: 0.5rem; font-weight: 500; }
-.alert-warning { background-color: #fefcbf; color: #b45309; border: 1px solid #fde047; }
-.alert-success { background-color: #dcfce7; color: #166534; border: 1px solid #86efac; }
+.alert-warning { background-color: var(--warning-bg); color: var(--warning-text); border: 1px solid var(--warning-text); }
+.alert-success { background-color: var(--success-bg); color: var(--success-text); border: 1px solid var(--success-text); }
 
 .sidebar-extra-content {
     padding: 0 10px;
@@ -84,4 +76,3 @@ body {
 .sidebar.collapsed .settings-nav li:nth-child(n+4) {
     display: none;
 }
-

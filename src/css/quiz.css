@@ -1,21 +1,21 @@
-/* css/quiz.css */
+/* css/quiz.css (Diperbarui dengan Dark Mode) */
 
 /* Styling for the start and result page containers */
 .quiz-start-container, .quiz-result-container {
-    background: #fff;
+    background: var(--content-bg);
     padding: 2rem;
     border-radius: 8px;
-    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    box-shadow: 0 2px 4px var(--shadow-color);
     text-align: center;
 }
 
 .quiz-start-container h1, .quiz-result-container h1 {
     margin-top: 0;
-    color: #333;
+    color: var(--text-color);
 }
 
 .quiz-start-container p, .quiz-result-container p {
-    color: #666;
+    color: var(--text-grey);
     font-size: 1.1rem;
     line-height: 1.6;
 }
@@ -28,16 +28,16 @@
 
 /* Styling for the main quiz page */
 .quiz-form-container {
-    background: #fff;
+    background: var(--content-bg);
     padding: 2rem;
     border-radius: 8px;
-    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    box-shadow: 0 2px 4px var(--shadow-color);
 }
 
 .question-block {
     margin-bottom: 2.5rem;
     padding-bottom: 1.5rem;
-    border-bottom: 1px solid #eee;
+    border-bottom: 1px solid var(--border-color);
 }
 
 .question-block:last-child {
@@ -47,22 +47,24 @@
 
 .question-text {
     font-size: 1.2rem;
-    color: #333;
+    color: var(--text-color);
     margin-bottom: 1rem;
 }
 
 .options-group label {
     display: block;
-    background: #f9f9f9;
+    background: var(--hover-color);
     padding: 12px 15px;
     border-radius: 5px;
     margin-bottom: 10px;
     cursor: pointer;
     transition: background-color 0.2s ease-in-out;
+    border: 1px solid var(--border-color);
 }
 
 .options-group label:hover {
-    background: #f0f0f0;
+    background-color: var(--primary-light);
+    border-color: var(--primary-color);
 }
 
 .options-group input[type="radio"] {

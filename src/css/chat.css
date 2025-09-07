@@ -18,7 +18,7 @@
     gap: 10px;
     width: 100%;
     padding: 10px 15px;
-    background: var(--secondary-color);
+    background: var(--content-bg);
     color: var(--text-color);
     border: 1px solid var(--border-color);
     border-radius: 8px;
@@ -121,7 +121,7 @@ body {
     display: flex;
     flex-direction: column;
     height: 100%; 
-    background: var(--bg-color);
+    background: var(--content-bg);
     border-radius: 12px;
     box-shadow: 0 4px 8px var(--shadow-color);
     position: relative;
@@ -183,16 +183,16 @@ body {
 }
 .message.user {
     background-color: var(--primary-color);
-    color: var(--white-color);
+    color: var(--white-color, #fff);
     max-width: 70%;
 }
 .message.model {
-    background-color: var(--secondary-color);
+    background-color: var(--hover-color);
     color: var(--text-color);
     max-width: 80%;
 }
 /* PERBAIKAN: Gaya khusus untuk bubble AI di mode gelap */
-html[data-theme="dark"] .message.model {
+html.dark .message.model {
     background-color: #2c2c2e; /* Sedikit lebih terang dari background gelap */
     border: 1px solid #3a3a3c; /* Border tipis untuk kontras */
 }
@@ -280,7 +280,7 @@ html[data-theme="dark"] .message.model {
     background-color: var(--hover-color);
 }
 .message tr:nth-child(even) {
-    background-color: var(--secondary-color);
+    background-color: var(--bg-color);
 }
 
 
@@ -298,7 +298,7 @@ html[data-theme="dark"] .message.model {
     max-width: 900px;
     margin: 0 auto;
     position: relative;
-    background-color: var(--secondary-color);
+    background-color: var(--content-bg);
     box-shadow: 0 4px 12px var(--shadow-color);
     border-radius: 16px;
     border: 1px solid var(--border-color);
@@ -308,14 +308,12 @@ html[data-theme="dark"] .message.model {
     justify-content: space-between;
     align-items: center;
     padding: 5px 10px;
-    background-color: #fffbe6;
+    background-color: var(--warning-bg);
+    color: var(--warning-text);
     border-radius: 8px 8px 0 0;
     font-size: 0.8rem;
 }
-html[data-theme="dark"] .edit-controls {
-    background-color: #444033;
-    color: #fef3c7;
-}
+
 .chat-input-form {
     display: flex;
     flex-direction: column;
@@ -379,10 +377,6 @@ html[data-theme="dark"] .edit-controls {
     cursor: not-allowed;
 }
 
-
-/* --- Dropdown Menu for User Profile (Sudah ada di dashboard.css tapi bisa di-override di sini jika perlu) --- */
-
-
 /* --- TAMPILAN MOBILE --- */
 @media (max-width: 768px) {
     .main-content > main {
@@ -403,4 +397,3 @@ html[data-theme="dark"] .edit-controls {
         order: 2;
     }
 }
-
